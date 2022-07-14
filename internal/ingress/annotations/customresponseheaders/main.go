@@ -31,7 +31,7 @@ var headerRegexp = regexp.MustCompile(`^[a-zA-Z\d\-_]+$`)
 
 // Config returns the custom response headers for an Ingress rule
 type Config struct {
-	ResponseHeaders map[string]string `json:"response_headers,omitempty"`
+	ResponseHeaders map[string]string `json:"custom-response-headers,omitempty"`
 }
 
 type customresponseheaders struct {
