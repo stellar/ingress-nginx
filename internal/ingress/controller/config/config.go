@@ -957,6 +957,7 @@ func NewDefault() Configuration {
 			SSLRedirect:              true,
 			CustomHTTPErrors:         []int{},
 			DenylistSourceRange:      []string{},
+			CustomResponseHeaders:    map[string]string{},
 			WhitelistSourceRange:     []string{},
 			SkipAccessLogURLs:        []string{},
 			LimitRate:                0,
