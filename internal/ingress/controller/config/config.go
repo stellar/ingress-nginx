@@ -891,7 +891,6 @@ func NewDefault() Configuration {
 			PreserveTrailingSlash:    false,
 			SSLRedirect:              true,
 			CustomHTTPErrors:         []int{},
-			CustomResponseHeaders:    map[string]string{},
 			WhitelistSourceRange:     []string{},
 			SkipAccessLogURLs:        []string{},
 			LimitRate:                0,

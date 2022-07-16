@@ -1449,7 +1449,9 @@ stream {
             {{ range $errCode := $location.CustomHTTPErrors }}
             error_page {{ $errCode }} = @custom_{{ $location.DefaultBackendUpstreamName }}_{{ $errCode }};{{ end }}
 
-            {{ if not ( empty $location.CustomResponseHeaders.ResponseHeaders) }}
+            
+            {{ if $location.CustomResponseHeaders }}
+            # Custom Response Headers
             {{ range $k, $v := $location.CustomResponseHeaders.ResponseHeaders }}
             more_set_headers {{ printf "%s: %s" $k $v | quote }};
             {{ end }}
