@@ -59,7 +59,7 @@ func (e customresponseheaders) Parse(ing *networking.Ingress) (interface{}, erro
 			return nil, ing_errors.NewLocationDenied("Invalid header format")
 		}
 
-		headerSplit := strings.Split(headers[i], ":")
+		headerSplit := strings.SplitN(headers[i], ":", 2)
 		for j := range headerSplit {
 			headerSplit[j] = strings.TrimSpace(headerSplit[j])
 		}
