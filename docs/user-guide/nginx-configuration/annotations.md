@@ -330,7 +330,7 @@ nginx.ingress.kubernetes.io/custom-http-errors: "404,415"
 
 ### Custom Response Headers
 This annotation is of the form `nginx.ingress.kubernetes.io/custom-response-headers: <header name>` to specify a custom response header. This annotation uses `more_set_headers` nginx directive. To specify multiple headers, you can use `||` to seperate multiple response headers:
-- `nginx.ingress.kubernetes.io/custom-response-headers: "Cache-Control:no-cache || Strict-Transport-Security: max-age=31536000; includeSubDomains"`
+- `nginx.ingress.kubernetes.io/custom-response-headers: Cache-Control:no-cache || Strict-Transport-Security: max-age=31536000; includeSubDomains`
 
 
 ### Default Backend
