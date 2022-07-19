@@ -27,7 +27,7 @@ import (
 	"k8s.io/ingress-nginx/internal/ingress/resolver"
 )
 
-var headerRegexp = regexp.MustCompile(`^[a-zA-Z\d\-_]+$`)
+var headerRegexp = regexp.MustCompile(`^[a-zA-Z\-_]+$`)
 
 // Config returns the custom response headers for an Ingress rule
 type Config struct {
