@@ -55,7 +55,7 @@ func TestParseInvalidAnnotations(t *testing.T) {
 	}
 
 	data := map[string]string{}
-	data[parser.GetAnnotationWithPrefix("custom-response-headers")] = "Content-Type application/json || Accept: application/json || Name"
+	data[parser.GetAnnotationWithPrefix("custom-response-headers")] = "Content-Type application/json || Access-Control-Max-Age: 600 || Name"
 	ing.SetAnnotations(data)
 	i, err := NewParser(&resolver.Mock{}).Parse(ing)
 	if err == nil {
@@ -70,7 +70,7 @@ func TestParseAnnotations(t *testing.T) {
 	ing := buildIngress()
 
 	data := map[string]string{}
-	data[parser.GetAnnotationWithPrefix("custom-response-headers")] = "Content-Type: application/json || Accept: application/json"
+	data[parser.GetAnnotationWithPrefix("custom-response-headers")] = "Content-Type: application/json || Access-Control-Max-Age: 600"
 	ing.SetAnnotations(data)
 
 	i, err := NewParser(&resolver.Mock{}).Parse(ing)
@@ -84,7 +84,7 @@ func TestParseAnnotations(t *testing.T) {
 
 	expected_response_headers := map[string]string{}
 	expected_response_headers["Content-Type"] = "application/json"
-	expected_response_headers["Accept"] = "application/json"
+	expected_response_headers["Access-Control-Max-Age"] = "600"
 
 	c := &Config{expected_response_headers}
 
