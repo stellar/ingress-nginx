@@ -55,7 +55,12 @@ func TestParseInvalidAnnotations(t *testing.T) {
 	}
 
 	data := map[string]string{}
-	data[parser.GetAnnotationWithPrefix("custom-response-headers")] = "Content-Type application/json || Access-Control-Max-Age: 600 || Name"
+	data[parser.GetAnnotationWithPrefix("custom-response-headers")] = `
+		Content-Type application/json
+		Access-Control-Max-Age: 600
+		Nameok  	k8s.io/ingress-nginx/internal/ingress/annotations/customresponseheaders	0.003s	coverage: 88.5% of statements
+
+	`
 	ing.SetAnnotations(data)
 	i, err := NewParser(&resolver.Mock{}).Parse(ing)
 	if err == nil {
@@ -70,7 +75,10 @@ func TestParseAnnotations(t *testing.T) {
 	ing := buildIngress()
 
 	data := map[string]string{}
-	data[parser.GetAnnotationWithPrefix("custom-response-headers")] = "Content-Type: application/json || Access-Control-Max-Age: 600"
+	data[parser.GetAnnotationWithPrefix("custom-response-headers")] = `
+		Content-Type: application/json
+		Access-Control-Max-Age: 600
+	`
 	ing.SetAnnotations(data)
 
 	i, err := NewParser(&resolver.Mock{}).Parse(ing)

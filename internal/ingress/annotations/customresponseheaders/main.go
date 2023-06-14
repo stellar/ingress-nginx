@@ -28,7 +28,10 @@ import (
 	"k8s.io/ingress-nginx/internal/ingress/resolver"
 )
 
-var headerRegexp = regexp.MustCompile(`^[a-zA-Z\-_]+$`)
+var (
+	headerRegexp      = regexp.MustCompile(`^[a-zA-Z\-_]+$`)
+	headerValueRegexp = regexp.MustCompile(`^[a-zA-Z\d_ :;.,()!\\/"'?{}\x60\[\]@<>=\-+*#$&|~^%]+$`) //Ensure this covers all
+)
 
 // Config returns the custom response headers for an Ingress rule
 type Config struct {
@@ -66,8 +69,11 @@ func (e customresponseheaders) Parse(ing *networking.Ingress) (interface{}, erro
 		return nil, err
 	}
 
-	headers := strings.Split(responseHeader, "||")
+	headers := strings.Split(responseHeader, "\n")
 	for i := 0; i < len(headers); i++ {
+		if len(headers[i]) == 0 {
+			continue
+		}
 
 		if !strings.Contains(headers[i], ":") {
 			return nil, ing_errors.NewLocationDenied("Invalid header format")
@@ -86,6 +92,10 @@ func (e customresponseheaders) Parse(ing *networking.Ingress) (interface{}, erro
 			return nil, ing_errors.NewLocationDenied("Invalid header name")
 		}
 
+		if !ValidValue(headerSplit[1]) {
+			return nil, ing_errors.NewLocationDenied("Invalid header value")
+		}
+
 		headersMap[strings.TrimSpace(headerSplit[0])] = strings.TrimSpace(headerSplit[1])
 	}
 	return &Config{headersMap}, nil
@@ -94,4 +104,9 @@ func (e customresponseheaders) Parse(ing *networking.Ingress) (interface{}, erro
 // ValidHeader checks is the provided string satisfies the header's name regex
 func ValidHeader(header string) bool {
 	return headerRegexp.Match([]byte(header))
+}
+
+// ValidValue checks if the provided string satisfies the header value regex
+func ValidValue(header string) bool {
+	return headerValueRegexp.MatchString(header)
 }
